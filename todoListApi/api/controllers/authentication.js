@@ -56,3 +56,5 @@ exports.register = function(req, res, next) {
         user: userInfo
       });
     });
+  });
+};
