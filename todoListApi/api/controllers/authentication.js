@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/userModel');
+const setUserInfo = require('../models/helpers').setUserInfo;
 const config = require('../config/main');
 
 function generateToken(user) {
@@ -13,7 +14,7 @@ exports.login = function (req, res, next) {
   const userInfo = setUserInfo(req.user);
 
   res.status(200).json({
-    token: `JWT ${generateToken(userInfo)}`,
+    token: `${generateToken(userInfo)}`,
     user: userInfo
   });
 };
@@ -51,8 +52,9 @@ exports.register = function(req, res, next) {
       if (err) { return next(err); }
 
       const userInfo = setUserInfo(user);
+        
       res.status(201).json({
-        token: `JWT ${generateToken(userInfo)}`,
+        token: `${generateToken(userInfo)}`,
         user: userInfo
       });
     });
