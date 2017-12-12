@@ -39,7 +39,7 @@ app.use(bodyParser.json()); //sends json responses
 app.use(morgan('dev')); //log requests to the console
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://bigballers.me:3000');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -49,3 +49,4 @@ app.use((req, res, next) => {
 router(app);
 
 module.exports = server;
+
