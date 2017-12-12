@@ -15,16 +15,16 @@ exports.getChats = function(req, res, next) {
       if(chats.length === 0){
         return res.status(200).json({message:"No chatrooms open"});
       }
-      let fullChats = [];
+      const fullChats = [];
       chats.forEach(function(chat) {
-        Message.find({ 'chatId': chat._id })
-          .sort('-createdAt')
-          .limit(1)
-          .populate({
-            path: "user",
-            select: "name"
-          })
-          .exe(function(err, message) {
+        Message.find({ chatId: chat._id })
+            .sort('-createdAt')
+            .limit(1)
+            .populate({
+                path: 'user',
+                select: 'name'
+            })
+          .exec(function(err, message) {
             if (err) {
               res.send({ error: err });
               return next(err);
@@ -79,7 +79,7 @@ exports.newChat = function(req, res, next) {
     }
 
     const message = new Message({
-      chatId: newchat._id,
+      chatId: newChat._id,
       body: req.body.composedMessage,
       user: req.user._id
     });
@@ -110,6 +110,5 @@ exports.sendMessage = function(req, res, next) {
     }
 
     res.status(200).json({ message: 'Message sent' });
-    return(next);
   });
 };
