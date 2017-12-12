@@ -8,10 +8,6 @@ const Schema = mongoose.Schema;
  * User Schema
  */
 const UserSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     unique: true,
@@ -19,13 +15,16 @@ const UserSchema = new Schema({
     trim: true,
     required: true
   },
+  name: {
+    type: String
+  },
   password: {
     type: String,
     required: true
   }
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function (next) {//this hashes passwords with salt before saving it to the database
   const user = this,
     SALT_FACTOR = 5;
 
@@ -34,7 +33,7 @@ UserSchema.pre('save', function (next) {
   bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
     if (err) return next(err);
 
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
+    bcrypt.hash(user.password, salt, null, (err, hash) => { //uses bcrypt to hash password
       if (err) return next(err);
       user.password = hash;
       next();
